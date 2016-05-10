@@ -111,7 +111,17 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-        
+        beforeEach(function(done){
+          loadFeed(1, function(){
+              done();
+            });
+
+        });
+
+        it('feed has loaded', function(done){
+          expect($('.feed').children().length).not.toBe(0);
+          done();
+        });
 
     });// Initial entries ends
 
