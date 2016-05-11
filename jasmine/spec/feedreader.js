@@ -102,22 +102,14 @@ $(function() {
         });
     });// Menu suite ends
 
-    /* TODO: Write a new test suite named "Initial Entries" */
     // Initial Entries suite
     describe('Initial Entries', function(){
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+         // Loads a Feed asynchonously
         beforeEach(function(done){
-          loadFeed(1, function(){
-              done();
-            });
-
+          loadFeed(1, done);
         });
 
+        // If Feed container is not empty, it passes a test
         it('feed has loaded', function(done){
           expect($('.feed').children().length).not.toBe(0);
           done();
@@ -125,12 +117,38 @@ $(function() {
 
     });// Initial entries ends
 
-    /* TODO: Write a new test suite named "New Feed Selection"
+    // New Feed Selection
+    // Tests if new feed differs from the previous
+    describe("New Feed Selection", function(){
+          var defaultFeed;
+          var currentFeed;
 
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+          // Get Feed container content
+          var getFeed = function(){
+            return $('.entry').html();
+          };
 
+
+          beforeEach(function(done){
+            // Loads First feed
+            loadFeed(0, function(){
+              // Saves content of First feed
+              defaultFeed = getFeed();
+              // Loads another feed
+              loadFeed(1, done );
+
+            });
+          });
+
+          it('load another feed', function(done){
+            // Saves content of another feed
+            currentFeed = getFeed();
+            // If both feeds differ, passes a test
+            expect(currentFeed).not.toEqual(defaultFeed);
+            done();
+
+          });
+
+    });
 
 }());
